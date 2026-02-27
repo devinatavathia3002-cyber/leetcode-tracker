@@ -1,4 +1,4 @@
-# Last updated: 2/26/2026, 10:42:30 PM
+# Last updated: 2/26/2026, 11:04:40 PM
 1class MyQueue:
 2
 3    def __init__(self):
