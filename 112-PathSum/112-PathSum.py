@@ -1,4 +1,4 @@
-# Last updated: 3/25/2026, 5:55:17 PM
+# Last updated: 3/25/2026, 5:56:57 PM
 1# Definition for a binary tree node.
 2# class TreeNode:
 3#     def __init__(self, val=0, left=None, right=None):
@@ -19,8 +19,7 @@
 18            
 19            return hasPath(node.right, val + node.val) or hasPath(node.left, val + node.val)
 20        
-21        if not root:
-22            return False
-23        return hasPath(root, 0)
+21
+22        return hasPath(root, 0)
+23            
 24            
-25            
