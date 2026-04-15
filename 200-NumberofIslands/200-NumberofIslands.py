@@ -1,36 +1,33 @@
-# Last updated: 2/17/2026, 11:27:16 PM
+# Last updated: 4/14/2026, 8:47:49 PM
 1class Solution:
 2    def numIslands(self, grid: List[List[str]]) -> int:
-3        
-4        islands = 0
-5        # visited = set()
+3        rows = len(grid)
+4        cols = len(grid[0])
+5        output = 0
 6
-7        rows, cols = len(grid), len(grid[0])
-8        
-9        def checkVal(r, c, q):
-10            if 0 <= r < rows and 0 <= c < cols and grid[r][c] == "1":
-11                print((r, c))
-12                q.append([r, c])
-13                grid[r][c] = "0"
-14        
-15        def bfs(r, c):
-16            q = deque()
-17            q.append([r, c])
-18
-19            while q: 
-20                for i in range(len(q)):
-21                    r, c = q.popleft()
-22
-23                    checkVal(r + 1, c, q)
-24                    checkVal(r - 1, c, q)
-25                    checkVal(r, c + 1, q)
-26                    checkVal(r, c - 1, q)
-27
-28        for r in range(rows):
-29            for c in range(cols):
-30                if grid[r][c] == "1":
-31                    bfs(r, c)
-32                    islands += 1
-33
-34
-35        return islands
+7        def dfs(r, c):
+8            if r < 0 or c < 0 or r >= rows or c >= cols:
+9                return
+10            
+11            if grid[r][c] == "1":
+12                grid[r][c] = "."
+13
+14                dfs(r + 1, c)
+15                dfs(r - 1, c)
+16                dfs(r, c + 1)
+17                dfs(r, c - 1)
+18            
+19            else:
+20                return
+21
+22        for r in range(rows):
+23            for c in range(cols):
+24                if grid[r][c] == "1":
+25                    dfs(r, c)
+26                    output += 1
+27        
+28        return output
+29
+30
+31
+32        
