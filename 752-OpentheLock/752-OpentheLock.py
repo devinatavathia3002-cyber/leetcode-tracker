@@ -1,44 +1,38 @@
-# Last updated: 2/19/2026, 8:30:56 PM
+# Last updated: 4/16/2026, 10:10:53 PM
 1class Solution:
 2    def openLock(self, deadends: List[str], target: str) -> int:
 3        
-4        visited = set(deadends)
-5
-6        beg = {"0000"}
-7        end = {target}
-8
-9        steps = 0
-10
-11        if target in visited or "0000" in visited:
-12            return -1
-13        
-14        if target == "0000":
-15            return 0
+4        if "0000" in deadends:
+5            return -1
+6            
+7        visited = set()
+8        for num in deadends:
+9            visited.add(num)
+10        
+11        q = deque()
+12        q.append("0000")
+13        visited.add("0000")
+14
+15        output = 0
 16
-17        while beg and end:
-18            if len(beg) > len(end):
-19                beg, end = end, beg
-20            
-21            temp = set()
-22            steps += 1
+17        while q:
+18            length = len(q)
+19            for i in range(length):
+20                popped = q.popleft()
+21                if popped == target:
+22                    return output
 23
-24            for lock in beg:
-25                
-26                for j in range(4):
-27                    newVal1 = lock[:j] + str((int(lock[j]) + 1) % 10) + lock[j + 1:]
-28                    newVal2 = lock[:j] + str((int(lock[j]) - 1 + 10) % 10) + lock[j + 1:]
-29
-30                    if newVal1 in end or newVal2 in end:
-31                        return steps
-32                    
-33                    if newVal1 not in visited:
-34                        visited.add(newVal1)
-35                        temp.add(newVal1)
-36                    
-37                    if newVal2 not in visited:
-38                        visited.add(newVal2)
-39                        temp.add(newVal2)
-40
-41            beg = temp
-42
-43        return -1
+24                for j in range(4):
+25                    pos = (int(popped[j]) + 1) % 10
+26                    minus = (int(popped[j]) - 1) % 10
+27                    down = popped[:j] + str(minus) + popped[j + 1:]
+28                    up = popped[:j] + str(pos) + popped[j + 1:]
+29                    if up not in visited:
+30                        q.append(up)
+31                        visited.add(up)
+32                    if down not in visited:
+33                        q.append(down)
+34                        visited.add(down)
+35            output += 1
+36
+37        return -1
