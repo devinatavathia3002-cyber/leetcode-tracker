@@ -1,34 +1,38 @@
-# Last updated: 5/20/2026, 8:58:28 PM
+# Last updated: 5/20/2026, 9:13:46 PM
 1class Solution:
 2    def isMatch(self, s: str, p: str) -> bool:
 3        
 4        lenS = len(s)
 5        lenP = len(p)
-6
-7        def recurse(l, r):
-8            if l == lenS and r == lenP:
-9                return True
-10            if r == lenP:
-11                return False
-12            
-13            if l == lenS:
-14                if r < lenP - 1 and p[r + 1] == "*":
-15                    return recurse(l, r + 2)
-16                return False
-17            
-18            if r < lenP - 1 and p[r + 1] == "*":
-19                # take or not take
-20                if s[l] != p[r] and p[r] != ".":
-21                    return recurse(l, r + 2)
-22                else:
-23                    return recurse(l + 1, r) or recurse(l, r + 2)
-24            
-25            elif s[l] == p[r] or p[r] == ".":
-26                return recurse(l + 1, r + 1)
-27            
-28            else:
-29                return False
-30        
-31        return recurse(0, 0)
-32
-33
+6        cache = {}
+7
+8        def recurse(l, r):
+9            if l == lenS and r == lenP:
+10                return True
+11            if (l, r) in cache:
+12                return cache[(l, r)]
+13
+14            if r == lenP:
+15                cache[(l, r)] = False
+16            elif l == lenS:
+17                if r < lenP - 1 and p[r + 1] == "*":
+18                    return recurse(l, r + 2)
+19                cache[(l, r)] = False
+20            
+21            elif r < lenP - 1 and p[r + 1] == "*":
+22                if s[l] != p[r] and p[r] != ".":
+23                    cache[(l, r)] = recurse(l, r + 2)
+24                else:
+25                    cache[(l, r)] = (recurse(l + 1, r) or recurse(l, r + 2))
+26            
+27            elif s[l] == p[r] or p[r] == ".":
+28                cache[(l, r)] = recurse(l + 1, r + 1)
+29            
+30            else:
+31                cache[(l, r)] = False
+32            
+33            return cache[(l, r)]
+34        
+35        return recurse(0, 0)
+36
+37
