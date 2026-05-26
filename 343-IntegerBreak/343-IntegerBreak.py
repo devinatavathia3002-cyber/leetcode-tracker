@@ -1,4 +1,4 @@
-# Last updated: 5/25/2026, 5:07:25 PM
+# Last updated: 5/25/2026, 5:12:45 PM
 1class Solution:
 2    def integerBreak(self, n: int) -> int:
 3        
@@ -23,7 +23,7 @@
 22        dp = [1] * (n + 1)
 23        for i in range(2, n + 1):
 24            dp[i] = (i if i != n else 1)
-25            for j in range(2, n):
+25            for j in range(2, i):
 26                dp[i] = max(dp[i], dp[j] * dp[i - j])
 27
 28        return dp[n]
