@@ -1,18 +1,20 @@
-# Last updated: 4/7/2026, 8:34:58 PM
+# Last updated: 6/7/2026, 3:18:14 PM
 1class Solution:
 2    def subsets(self, nums: List[int]) -> List[List[int]]:
 3        
-4        subs = []
+4        output = [[]]
 5
-6        def backtracking(index, subset):
-7            nonlocal subs
+6        def recurse(i, curr):
+7            nonlocal output
 8
-9            for j in range(index, len(nums)):
-10                subset.append(nums[j])
-11                backtracking(j + 1, subset)
-12                subs.append(subset.copy())
-13                subset.pop()
-14        
-15        backtracking(0, [])
-16        subs.append([])
-17        return subs
+9            if i == len(nums):
+10                return
+11            
+12            for j in range(i, len(nums)):
+13                curr.append(nums[j])
+14                recurse(j + 1, curr)
+15                output.append(curr.copy())
+16                curr.pop()
+17
+18        recurse(0, [])
+19        return output
