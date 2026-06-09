@@ -1,22 +1,20 @@
-# Last updated: 4/7/2026, 11:11:05 PM
+# Last updated: 6/8/2026, 8:31:50 PM
 1class Solution:
 2    def combinationSum(self, nums: List[int], target: int) -> List[List[int]]:
 3        
-4        res = []
+4        output = []
 5
-6        def backtracking(index, subset, total):
-7            nonlocal res
-8
-9            if total == target:
-10                res.append(subset.copy())
-11                return
-12            if total > target:
-13                return
-14
-15            for i in range(index, len(nums)):
-16                subset.append(nums[i])
-17                backtracking(i, subset, total + nums[i])
-18                subset.pop()
+6        def backtrack(total, sub, i):
+7            if total > target:
+8                return 
+9            elif total == target:
+10                output.append(sub.copy())
+11            else:
+12                for j in range(i, len(nums)):
+13                    sub.append(nums[j])
+14                    backtrack(total + nums[j], sub, j)
+15                    sub.pop()
+16            
+17        backtrack(0, [], 0)
+18        return output
 19
-20        backtracking(0, [], 0)
-21        return res
