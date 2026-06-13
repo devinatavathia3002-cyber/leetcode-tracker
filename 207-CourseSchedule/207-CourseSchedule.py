@@ -1,4 +1,4 @@
-# Last updated: 4/17/2026, 12:46:23 AM
+# Last updated: 6/13/2026, 4:49:33 PM
 1class Solution:
 2    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
 3        
