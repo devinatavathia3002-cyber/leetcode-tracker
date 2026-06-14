@@ -1,4 +1,4 @@
-# Last updated: 6/14/2026, 12:43:00 AM
+# Last updated: 6/14/2026, 12:49:42 AM
 1class Solution:
 2    def isAdditiveNumber(self, num: str) -> bool:
 3        
@@ -20,18 +20,18 @@
 19
 20        # brute force starting two numbers
 21        for s in range(1, len(num)):
-22            for e in range(s, len(num) - 1):
+22            for e in range(s + 1, len(num)):
 23                first = num[:s]
-24                second = num[s:e + 1]
+24                second = num[s:e]
 25
 26                if len(first) > 1 and int(first[0]) == 0:
 27                    continue
 28                if len(second) > 1 and int(second[0]) == 0:
 29                    continue
 30                
-31                print(second)
+31                print(num[e:])
 32 
-33                if additive(int(first), int(second), num[(len(first) + len(second)):]):
+33                if additive(int(first), int(second), num[e:]):
 34                    return True
 35        
 36        return False
