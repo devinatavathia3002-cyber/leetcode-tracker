@@ -1,32 +1,27 @@
-# Last updated: 4/17/2026, 9:10:38 PM
+# Last updated: 6/13/2026, 8:04:25 PM
 1class Solution:
 2    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
 3        
 4        output = []
-5        taken = 0
-6        q = deque()
-7        indegree = [0] * numCourses
-8        adj = defaultdict(list)
-9
-10        for num in prerequisites:
-11            course, pre = num
-12            indegree[course] += 1
-13            adj[pre].append(course)
-14        
-15        for num in range(numCourses):
-16            if indegree[num] == 0:
-17                q.append(num)
-18        
-19        while q:
-20            length = len(q)
-21            for i in range(length):
-22                course = q.popleft()
-23                output.append(course)
-24                for num in adj[course]:
-25                    indegree[num] -= 1
-26                    if indegree[num] == 0:
-27                        q.append(num)
-28                adj[course] = []
-29                taken += 1
-30
-31        return output if taken == numCourses else []
+5        adj = defaultdict(list)
+6        count = defaultdict(int)
+7        for course in prerequisites:
+8            end, beg = course
+9            adj[end].append(beg)
+10            count[beg] += 1
+11
+12        q = deque()
+13        for i in range(numCourses):
+14            if i not in count:
+15                q.append(i)
+16
+17        while q:
+18            course = q.popleft()
+19            output.append(course)
+20
+21            for prereq in adj[course]:
+22                count[prereq] -= 1
+23                if count[prereq] <= 0:
+24                    q.append(prereq)
+25
+26        return output[::-1] if len(output) == numCourses else []
