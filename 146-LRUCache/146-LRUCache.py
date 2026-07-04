@@ -1,57 +1,53 @@
-# Last updated: 3/12/2026, 12:22:51 AM
-1class Node:
-2    def __init__(self, key, val):
-3        self.key = key
-4        self.val = val
-5        self.next = self.prev = None
-6
-7class LRUCache:
+# Last updated: 7/4/2026, 2:21:04 PM
+1class ListNode:
+2    def __init__(self, key, value):
+3        self.key, self.value = key, value
+4        self.prev, self.next = None, None
+5
+6class LRUCache:
+7
 8    def __init__(self, capacity: int):
 9        self.capacity = capacity
 10        self.cache = {}
 11
-12        self.front = Node(0, 0)
-13        self.back = Node(0, 0)
-14
-15        self.front.next = self.back
-16        self.back.prev = self.front
-17        
-18    def insert(self, node):
-19        past = self.back.prev
-20
-21        past.next = node
-22        node.prev = past
-23
-24        self.back.prev = node
-25        node.next = self.back
-26    
-27    def remove(self, node):
-28        past = node.prev
-29        future = node.next
-30
-31        past.next = future
-32        future.prev = past
-33
-34    def get(self, key: int) -> int:
-35        if key in self.cache:
-36            curr = self.cache[key]
-37            self.remove(curr)
-38            self.insert(curr)
-39            return curr.val
-40        return -1
-41
-42    def put(self, key: int, value: int) -> None:
-43        newNode = Node(key, value)
-44
-45        if key in self.cache:
-46            curr = self.cache[key]
-47            self.remove(curr)
-48            self.insert(newNode)
-49        else:
-50            if len(self.cache) == self.capacity:
-51                remVal = self.front.next
-52                self.remove(remVal)
-53                self.cache.pop(remVal.key)
-54            self.insert(newNode)
-55        
-56        self.cache[key] = newNode
+12        self.MRU, self.LRU = ListNode(0, 0), ListNode(0, 0)
+13        # front is LRU, back is MRU
+14        self.MRU.prev, self.LRU.next = self.LRU, self.MRU
+15    
+16    def delete(self, key):
+17        node = self.cache[key]
+18        prev, after = node.prev, node.next
+19        prev.next, after.prev = after, prev
+20    
+21    def insert(self, key):
+22        # inserting at the back
+23        node = self.cache[key]
+24        prev, after = self.MRU.prev, self.MRU
+25
+26        prev.next, after.prev = node, node
+27        node.next, node.prev = after, prev
+28
+29    def get(self, key: int) -> int:
+30        if key in self.cache:
+31            self.delete(key)
+32            self.insert(key)
+33            return self.cache[key].value
+34        else:
+35            return -1
+36
+37    def put(self, key: int, value: int) -> None:
+38        if key in self.cache:
+39            self.cache[key].value = value
+40            self.delete(key)
+41            self.insert(key)
+42        else:
+43            self.cache[key] = ListNode(key, value)
+44            self.insert(key)
+45            
+46        # reassign capacity if needed
+47        if len(self.cache) > self.capacity:
+48            mapKey = self.LRU.next.key
+49            self.delete(mapKey)
+50            del self.cache[mapKey]
+51
+52
