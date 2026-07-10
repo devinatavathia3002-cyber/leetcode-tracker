@@ -1,4 +1,4 @@
-# Last updated: 7/9/2026, 7:55:05 PM
+# Last updated: 7/9/2026, 7:58:57 PM
 1class Solution:
 2    def findMaxLength(self, nums: List[int]) -> int:
 3        res = 0
