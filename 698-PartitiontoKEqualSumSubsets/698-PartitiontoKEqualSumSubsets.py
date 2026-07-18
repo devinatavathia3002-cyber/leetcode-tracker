@@ -1,4 +1,4 @@
-# Last updated: 7/4/2026, 8:59:39 PM
+# Last updated: 7/18/2026, 4:33:19 PM
 1class Solution:
 2    def canPartitionKSubsets(self, nums: List[int], k: int) -> bool:
 3        total = sum(nums)
