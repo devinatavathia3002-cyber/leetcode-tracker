@@ -1,4 +1,4 @@
-# Last updated: 7/25/2026, 10:49:32 AM
+# Last updated: 7/25/2026, 10:49:43 AM
 1class Solution:
 2    def successfulPairs(self, spells: List[int], potions: List[int], success: int) -> List[int]:
 3        output = [0] * len(spells)
