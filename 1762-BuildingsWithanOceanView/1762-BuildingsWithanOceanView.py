@@ -1,4 +1,4 @@
-# Last updated: 7/29/2026, 6:07:58 PM
+# Last updated: 7/29/2026, 6:09:12 PM
 1class Solution:
 2    def findBuildings(self, heights: List[int]) -> List[int]:
 3        stack = []
@@ -12,4 +12,4 @@
 11                output.append(i)
 12            stack.append(curr)
 13        
-14        return sorted(output)
+14        return output[::-1]
